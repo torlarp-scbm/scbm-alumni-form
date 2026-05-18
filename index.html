@@ -915,12 +915,36 @@ function updateProgress(n) {
 }
 
 /* ─── FILE UPLOAD ─────────────────────────────────────────────────────── */
+let photoBase64 = '';
+
+function resizeAndStore(file) {
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const img = new Image();
+    img.onload = () => {
+      const MAX = 300;
+      let w = img.width, h = img.height;
+      if (w > MAX || h > MAX) {
+        if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
+        else       { w = Math.round(w * MAX / h); h = MAX; }
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      photoBase64 = canvas.toDataURL('image/jpeg', 0.75).split(',')[1];
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
 function onFileChange(input) {
   const lbl = document.getElementById('fileLabel');
   if (input.files && input.files[0]) {
     lbl.textContent = '✓ ' + input.files[0].name;
     lbl.style.display = 'block';
     document.getElementById('uploadZone').style.borderColor = 'var(--royal)';
+    resizeAndStore(input.files[0]);
   }
 }
 
@@ -969,6 +993,7 @@ function submitForm() {
     scbmMods:      checkedVals('scbmm').join(', '),
     sussexMods:    checkedVals('sm').join(', '),
     currentStatus: checkedVals('status').join(', '),
+    photo:         photoBase64,
   });
 
   fetch(`${SCRIPT_URL}?${params.toString()}`, { method: 'GET', mode: 'no-cors' })
