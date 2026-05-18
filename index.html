@@ -499,16 +499,24 @@
     .consent-hero-bg { position: absolute; inset: 0; pointer-events: none; }
 
     .consent-brain-wrap {
-      width: 192px; height: 250px;
+      width: 185px; height: 208px;
       margin: 0 auto 14px;
     }
 
     .consent-brain { width: 100%; height: 100%; overflow: visible; }
 
-    .brain-body {
-      animation: brainBreath 4s ease-in-out infinite alternate;
+    .heart-body {
+      transform-box: fill-box; transform-origin: 50% 50%;
+      animation: heartBeat 1.4s ease-in-out infinite, heartGlow 2.8s ease-in-out infinite alternate;
     }
-    @keyframes brainBreath {
+    @keyframes heartBeat {
+      0%          { transform: scale(1.00); }
+      14%         { transform: scale(1.07); }
+      28%         { transform: scale(1.00); }
+      42%         { transform: scale(1.04); }
+      70%, 100%   { transform: scale(1.00); }
+    }
+    @keyframes heartGlow {
       from { fill: rgba(255,255,255,0.08); }
       to   { fill: rgba(77,159,224,0.22); }
     }
@@ -544,23 +552,14 @@
     .np-1,.np-2,.np-3,.np-4,.np-5 {
       transform-box: fill-box; transform-origin: center;
     }
-    .np-1 { animation: npPulse 2.2s ease-in-out infinite 0s; }
-    .np-2 { animation: npPulse 2.6s ease-in-out infinite 0.9s; }
-    .np-3 { animation: npPulse 2.9s ease-in-out infinite 0.4s; }
-    .np-4 { animation: npPulse 2.4s ease-in-out infinite 1.5s; }
-    .np-5 { animation: npPulse 3.0s ease-in-out infinite 0.7s; }
+    .np-1 { animation: npPulse 1.4s ease-in-out infinite 0s; }
+    .np-2 { animation: npPulse 1.4s ease-in-out infinite 0.28s; }
+    .np-3 { animation: npPulse 1.4s ease-in-out infinite 0.56s; }
+    .np-4 { animation: npPulse 1.4s ease-in-out infinite 0.84s; }
+    .np-5 { animation: npPulse 1.4s ease-in-out infinite 1.12s; }
     @keyframes npPulse {
-      0%, 100% { opacity: 0.10; transform: scale(0.4); }
-      47%, 53% { opacity: 1;    transform: scale(1.5); }
-    }
-
-    .brain-ring {
-      transform-box: fill-box; transform-origin: center;
-      animation: brainRing 3.0s ease-out infinite;
-    }
-    @keyframes brainRing {
-      0%   { transform: scale(0.5); opacity: 0.6; }
-      100% { transform: scale(2.8); opacity: 0; }
+      0%, 100% { opacity: 0.08; transform: scale(0.3); }
+      30%, 50%  { opacity: 1;   transform: scale(1.4); }
     }
 
     .consent-institution {
@@ -767,156 +766,119 @@
     </svg>
 
     <div class="consent-brain-wrap">
-      <svg class="consent-brain" viewBox="0 -15 200 245" xmlns="http://www.w3.org/2000/svg">
+      <svg class="consent-brain" viewBox="0 -30 200 225" xmlns="http://www.w3.org/2000/svg">
 
-        <!--
-          Lateral brain (right hemisphere, frontal left):
-          Brain body x≈32–168, y≈8–158  |  Brainstem y≈158–228
-          Flowers y≈-12–(-3)  |  stems from brain-top bumps upward
-        -->
+        <!-- ══ PULMONARY TRUNK ══ -->
+        <path d="M 118,60 C 126,44 132,28 134,18 C 136,10 134,4 130,2"
+          stroke="rgba(255,255,255,0.38)" stroke-width="2.0" fill="none" stroke-linecap="round"/>
 
-        <!-- ══ BRAINSTEM ══ -->
-        <path d="M 88,158 Q 84,184 86,224 M 112,158 Q 116,184 114,224"
-          stroke="rgba(255,255,255,0.58)" stroke-width="2.8" fill="none" stroke-linecap="round"/>
-
-        <!-- ══ BRAIN BODY — lateral view with visible gyri bumps on top ══ -->
-        <path class="brain-body"
-          d="M 40,118
-             C 32,106 26,84 32,62
-             C 36,46 46,34 58,28
-             C 62,22 67,19 71,23
-             C 75,27 77,23 81,17
-             C 85,11 90,9 95,15
-             C 100,21 102,15 106,9
-             C 110,3 116,7 120,13
-             C 124,19 127,15 131,9
-             C 135,3 141,9 145,17
-             C 149,25 153,21 157,29
-             C 163,43 167,61 166,81
-             C 165,101 159,119 151,131
-             C 143,143 129,151 113,155
-             C 97,159 81,159 65,153
-             C 49,147 37,135 35,121
-             C 33,117 37,117 40,118 Z"
+        <!-- ══ HEART BODY — front anatomical view, double-atria bump top, apex bottom ══ -->
+        <path class="heart-body"
+          d="M 95,172
+             C 78,164 55,148 44,124
+             C 34,102 36,76 46,58
+             C 52,48 58,40 64,32
+             C 68,24 74,20 80,22
+             C 86,24 90,32 92,38
+             C 94,42 98,42 102,40
+             C 106,36 110,28 116,24
+             C 122,20 130,22 136,30
+             C 142,38 146,52 150,68
+             C 158,88 158,114 150,136
+             C 142,154 124,166 110,170
+             C 104,172 100,173 95,172 Z"
           fill="rgba(255,255,255,0.08)"
-          stroke="rgba(255,255,255,0.80)" stroke-width="2.4" stroke-linejoin="round"/>
+          stroke="rgba(255,255,255,0.80)" stroke-width="2.6" stroke-linejoin="round"/>
 
-        <!-- ══ SULCI — major landmarks ══ -->
-        <!-- Lateral (Sylvian) fissure — deepest, most prominent -->
-        <path d="M 50,100 C 68,96 90,95 112,98 C 132,101 148,113 156,127"
-          stroke="rgba(255,255,255,0.45)" stroke-width="2.0" fill="none" stroke-linecap="round"/>
-        <!-- Central sulcus (near-vertical, divides frontal/parietal) -->
-        <path d="M 93,22 C 95,40 95,62 91,82 C 90,88 90,94 91,98"
-          stroke="rgba(255,255,255,0.32)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-        <!-- Post-central sulcus -->
-        <path d="M 110,14 C 113,34 113,56 109,76 C 107,84 107,90 109,96"
-          stroke="rgba(255,255,255,0.26)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
-        <!-- Intraparietal sulcus (horizontal in parietal) -->
-        <path d="M 114,80 C 126,76 140,76 150,82"
-          stroke="rgba(255,255,255,0.24)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
-        <!-- Superior frontal sulcus (horizontal) -->
-        <path d="M 36,66 C 50,60 64,57 76,59 C 84,61 88,67 88,76"
-          stroke="rgba(255,255,255,0.26)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
-        <!-- Inferior frontal sulcus -->
-        <path d="M 33,84 C 47,78 61,75 73,77 C 79,79 81,85 79,96"
-          stroke="rgba(255,255,255,0.22)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
-        <!-- Superior temporal sulcus (below Sylvian) -->
-        <path d="M 52,120 C 70,116 94,116 116,120 C 134,124 148,134 154,144"
-          stroke="rgba(255,255,255,0.24)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
-        <!-- Middle temporal sulcus -->
-        <path d="M 58,138 C 76,134 100,134 120,138 C 132,142 140,148 142,154"
-          stroke="rgba(255,255,255,0.20)" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+        <!-- ══ CORONARY SURFACE VESSELS ══ -->
+        <path d="M 100,44 C 98,82 96,126 95,166"
+          stroke="rgba(255,255,255,0.34)" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+        <path d="M 122,38 C 136,50 148,70 152,92 C 154,108 150,126 144,136"
+          stroke="rgba(255,255,255,0.22)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+        <path d="M 88,36 C 74,46 56,60 46,80"
+          stroke="rgba(255,255,255,0.22)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+        <path d="M 97,88 C 82,98 68,112 60,130"
+          stroke="rgba(255,255,255,0.17)" stroke-width="1.1" fill="none" stroke-linecap="round"/>
 
-        <!-- ══ EXPANDING RING PULSE ══ -->
-        <circle class="brain-ring" cx="92" cy="96" r="11"
-          fill="none" stroke="rgba(77,159,224,0.55)" stroke-width="1.5"/>
+        <!-- ══ AORTIC ARCH (botanical main stem) ══ -->
+        <path d="M 106,28 C 108,14 112,4 116,-2"
+          stroke="rgba(255,255,255,0.68)" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+        <path d="M 116,-2 C 120,-10 128,-14 136,-12 C 142,-10 146,-4 146,6"
+          stroke="rgba(255,255,255,0.60)" stroke-width="2.4" fill="none" stroke-linecap="round"/>
 
-        <!-- ══ NEURAL ACTIVITY DOTS ══ -->
-        <circle class="np-1" cx="50"  cy="80"  r="3.5" fill="rgba(77,159,224,1)"/>
-        <circle class="np-2" cx="78"  cy="58"  r="3"   fill="rgba(255,255,255,0.9)"/>
-        <circle class="np-3" cx="112" cy="80"  r="3.5" fill="rgba(77,159,224,1)"/>
-        <circle class="np-4" cx="148" cy="92"  r="3"   fill="rgba(255,255,255,0.9)"/>
-        <circle class="np-5" cx="72"  cy="120" r="2.5" fill="rgba(168,204,236,0.95)"/>
-
-        <!-- ══ FLOWER STEMS (growing from gyri bumps) ══ -->
-        <!-- Stem 1 (left) — from bump at ~(67,19) -->
-        <path d="M 67,19 C 63,10 58,2 54,-4"
-          stroke="rgba(255,255,255,0.62)" stroke-width="1.9" fill="none" stroke-linecap="round"/>
-        <!-- Branch left -->
-        <path d="M 61,8 C 52,4 44,2 38,-2"
-          stroke="rgba(255,255,255,0.50)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-        <!-- Stem 2 (center) — from bump at ~(95,15) -->
-        <path d="M 95,15 C 95,6 96,-2 96,-8"
-          stroke="rgba(255,255,255,0.62)" stroke-width="1.9" fill="none" stroke-linecap="round"/>
-        <!-- Stem 3 (right) — from bump at ~(141,9) -->
-        <path d="M 141,9 C 144,2 148,-4 152,-8"
-          stroke="rgba(255,255,255,0.62)" stroke-width="1.9" fill="none" stroke-linecap="round"/>
-        <!-- Branch right -->
-        <path d="M 146,2 C 154,-2 162,-4 168,-6"
-          stroke="rgba(255,255,255,0.50)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <!-- ══ FLOWER STEMS ══ -->
+        <path d="M 110,6 C 100,0 88,-6 76,-12 C 68,-16 60,-20 54,-18"
+          stroke="rgba(255,255,255,0.56)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <path d="M 126,-12 C 122,-16 118,-19 114,-20"
+          stroke="rgba(255,255,255,0.56)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <path d="M 146,6 C 152,-2 158,-10 166,-14"
+          stroke="rgba(255,255,255,0.50)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
 
         <!-- ══ LEAVES ══ -->
-        <!-- Leaf L1 at branch tip (~38,-2) -->
         <g class="bio-leaf-l1">
-          <path d="M 38,-2 C 31,-8 28,-6 30,-1 C 33,4 40,4 38,-2 Z"
-            fill="rgba(77,159,224,0.75)" stroke="rgba(255,255,255,0.48)" stroke-width="1.1"/>
+          <path d="M 72,-12 C 62,-20 56,-16 60,-10 C 65,-4 74,-8 72,-12 Z"
+            fill="rgba(77,159,224,0.75)" stroke="rgba(255,255,255,0.45)" stroke-width="1.1"/>
         </g>
-        <!-- Leaf L2 small on stem2 -->
         <g class="bio-leaf-l2">
-          <path d="M 92,2 C 84,-2 82,2 86,8 C 92,10 96,6 92,2 Z"
-            fill="rgba(45,125,90,0.70)" stroke="rgba(255,255,255,0.40)" stroke-width="1"/>
+          <path d="M 92,-4 C 84,-12 78,-8 82,-2 C 87,3 94,-1 92,-4 Z"
+            fill="rgba(45,125,90,0.72)" stroke="rgba(255,255,255,0.38)" stroke-width="1.0"/>
         </g>
-        <!-- Leaf R1 at right branch tip (~168,-6) -->
         <g class="bio-leaf-r1">
-          <path d="M 168,-6 C 174,-12 178,-10 176,-4 C 171,1 164,-1 168,-6 Z"
-            fill="rgba(77,159,224,0.75)" stroke="rgba(255,255,255,0.48)" stroke-width="1.1"/>
+          <path d="M 160,-13 C 168,-20 172,-16 168,-10 C 163,-4 158,-8 160,-13 Z"
+            fill="rgba(77,159,224,0.75)" stroke="rgba(255,255,255,0.45)" stroke-width="1.1"/>
         </g>
-        <!-- Leaf R2 small on stem3 -->
         <g class="bio-leaf-r2">
-          <path d="M 146,4 C 154,0 157,4 153,10 C 147,12 142,8 146,4 Z"
-            fill="rgba(45,125,90,0.70)" stroke="rgba(255,255,255,0.40)" stroke-width="1"/>
+          <path d="M 138,-12 C 148,-20 152,-14 148,-8 C 142,-3 136,-7 138,-12 Z"
+            fill="rgba(45,125,90,0.70)" stroke="rgba(255,255,255,0.36)" stroke-width="1.0"/>
         </g>
 
         <!-- ══ FLOWERS ══ -->
-        <!-- Flower 1 — left daisy, center (54,-4), 8 petals -->
+        <!-- Flower 1 — left, 8 petals, center (54,-18) -->
         <g class="bio-flower bio-flower-1">
-          <path d="M 54,-4 C 57,-9 58,-13 54,-13 C 50,-13 51,-9 54,-4 Z" fill="rgba(255,255,255,0.68)"/>
-          <path d="M 54,-4 C 57,-9 58,-13 54,-13 C 50,-13 51,-9 54,-4 Z" fill="rgba(168,204,236,0.65)" transform="rotate(45,54,-4)"/>
-          <path d="M 54,-4 C 57,-9 58,-13 54,-13 C 50,-13 51,-9 54,-4 Z" fill="rgba(255,255,255,0.65)" transform="rotate(90,54,-4)"/>
-          <path d="M 54,-4 C 57,-9 58,-13 54,-13 C 50,-13 51,-9 54,-4 Z" fill="rgba(168,204,236,0.65)" transform="rotate(135,54,-4)"/>
-          <path d="M 54,-4 C 57,-9 58,-13 54,-13 C 50,-13 51,-9 54,-4 Z" fill="rgba(255,255,255,0.68)" transform="rotate(180,54,-4)"/>
-          <path d="M 54,-4 C 57,-9 58,-13 54,-13 C 50,-13 51,-9 54,-4 Z" fill="rgba(168,204,236,0.65)" transform="rotate(225,54,-4)"/>
-          <path d="M 54,-4 C 57,-9 58,-13 54,-13 C 50,-13 51,-9 54,-4 Z" fill="rgba(255,255,255,0.65)" transform="rotate(270,54,-4)"/>
-          <path d="M 54,-4 C 57,-9 58,-13 54,-13 C 50,-13 51,-9 54,-4 Z" fill="rgba(168,204,236,0.65)" transform="rotate(315,54,-4)"/>
-          <circle cx="54" cy="-4" r="5.5" fill="rgba(77,159,224,0.95)"/>
-          <circle cx="54" cy="-4" r="2.5" fill="rgba(255,255,255,0.98)"/>
+          <path d="M 54,-18 C 57,-23 58,-26 54,-26 C 50,-26 51,-23 54,-18 Z" fill="rgba(255,255,255,0.68)"/>
+          <path d="M 54,-18 C 57,-23 58,-26 54,-26 C 50,-26 51,-23 54,-18 Z" fill="rgba(168,204,236,0.65)" transform="rotate(45,54,-18)"/>
+          <path d="M 54,-18 C 57,-23 58,-26 54,-26 C 50,-26 51,-23 54,-18 Z" fill="rgba(255,255,255,0.65)" transform="rotate(90,54,-18)"/>
+          <path d="M 54,-18 C 57,-23 58,-26 54,-26 C 50,-26 51,-23 54,-18 Z" fill="rgba(168,204,236,0.65)" transform="rotate(135,54,-18)"/>
+          <path d="M 54,-18 C 57,-23 58,-26 54,-26 C 50,-26 51,-23 54,-18 Z" fill="rgba(255,255,255,0.68)" transform="rotate(180,54,-18)"/>
+          <path d="M 54,-18 C 57,-23 58,-26 54,-26 C 50,-26 51,-23 54,-18 Z" fill="rgba(168,204,236,0.65)" transform="rotate(225,54,-18)"/>
+          <path d="M 54,-18 C 57,-23 58,-26 54,-26 C 50,-26 51,-23 54,-18 Z" fill="rgba(255,255,255,0.65)" transform="rotate(270,54,-18)"/>
+          <path d="M 54,-18 C 57,-23 58,-26 54,-26 C 50,-26 51,-23 54,-18 Z" fill="rgba(168,204,236,0.65)" transform="rotate(315,54,-18)"/>
+          <circle cx="54" cy="-18" r="5.5" fill="rgba(77,159,224,0.95)"/>
+          <circle cx="54" cy="-18" r="2.5" fill="rgba(255,255,255,0.98)"/>
         </g>
 
-        <!-- Flower 2 — center, 6 petals, center (96,-8) -->
+        <!-- Flower 2 — center, 6 petals, center (114,-20) -->
         <g class="bio-flower bio-flower-2">
-          <path d="M 96,-8 C 99,-13 100,-18 96,-18 C 92,-18 93,-13 96,-8 Z" fill="rgba(255,255,255,0.70)"/>
-          <path d="M 96,-8 C 99,-13 100,-18 96,-18 C 92,-18 93,-13 96,-8 Z" fill="rgba(168,204,236,0.75)" transform="rotate(60,96,-8)"/>
-          <path d="M 96,-8 C 99,-13 100,-18 96,-18 C 92,-18 93,-13 96,-8 Z" fill="rgba(255,255,255,0.68)" transform="rotate(120,96,-8)"/>
-          <path d="M 96,-8 C 99,-13 100,-18 96,-18 C 92,-18 93,-13 96,-8 Z" fill="rgba(255,255,255,0.70)" transform="rotate(180,96,-8)"/>
-          <path d="M 96,-8 C 99,-13 100,-18 96,-18 C 92,-18 93,-13 96,-8 Z" fill="rgba(168,204,236,0.75)" transform="rotate(240,96,-8)"/>
-          <path d="M 96,-8 C 99,-13 100,-18 96,-18 C 92,-18 93,-13 96,-8 Z" fill="rgba(255,255,255,0.68)" transform="rotate(300,96,-8)"/>
-          <circle cx="96" cy="-8" r="6" fill="rgba(255,255,255,0.93)"/>
-          <circle cx="96" cy="-8" r="3" fill="rgba(77,159,224,0.90)"/>
+          <path d="M 114,-20 C 117,-25 118,-28 114,-28 C 110,-28 111,-25 114,-20 Z" fill="rgba(255,255,255,0.70)"/>
+          <path d="M 114,-20 C 117,-25 118,-28 114,-28 C 110,-28 111,-25 114,-20 Z" fill="rgba(168,204,236,0.75)" transform="rotate(60,114,-20)"/>
+          <path d="M 114,-20 C 117,-25 118,-28 114,-28 C 110,-28 111,-25 114,-20 Z" fill="rgba(255,255,255,0.68)" transform="rotate(120,114,-20)"/>
+          <path d="M 114,-20 C 117,-25 118,-28 114,-28 C 110,-28 111,-25 114,-20 Z" fill="rgba(255,255,255,0.70)" transform="rotate(180,114,-20)"/>
+          <path d="M 114,-20 C 117,-25 118,-28 114,-28 C 110,-28 111,-25 114,-20 Z" fill="rgba(168,204,236,0.75)" transform="rotate(240,114,-20)"/>
+          <path d="M 114,-20 C 117,-25 118,-28 114,-28 C 110,-28 111,-25 114,-20 Z" fill="rgba(255,255,255,0.68)" transform="rotate(300,114,-20)"/>
+          <circle cx="114" cy="-20" r="6" fill="rgba(255,255,255,0.93)"/>
+          <circle cx="114" cy="-20" r="3" fill="rgba(77,159,224,0.90)"/>
         </g>
 
-        <!-- Flower 3 — right, 8 petals, center (152,-8) -->
+        <!-- Flower 3 — right, 8 petals, center (166,-14) -->
         <g class="bio-flower bio-flower-3">
-          <path d="M 152,-8 C 155,-13 156,-17 152,-17 C 148,-17 149,-13 152,-8 Z" fill="rgba(168,204,236,0.78)"/>
-          <path d="M 152,-8 C 155,-13 156,-17 152,-17 C 148,-17 149,-13 152,-8 Z" fill="rgba(255,255,255,0.65)" transform="rotate(45,152,-8)"/>
-          <path d="M 152,-8 C 155,-13 156,-17 152,-17 C 148,-17 149,-13 152,-8 Z" fill="rgba(168,204,236,0.78)" transform="rotate(90,152,-8)"/>
-          <path d="M 152,-8 C 155,-13 156,-17 152,-17 C 148,-17 149,-13 152,-8 Z" fill="rgba(255,255,255,0.65)" transform="rotate(135,152,-8)"/>
-          <path d="M 152,-8 C 155,-13 156,-17 152,-17 C 148,-17 149,-13 152,-8 Z" fill="rgba(168,204,236,0.78)" transform="rotate(180,152,-8)"/>
-          <path d="M 152,-8 C 155,-13 156,-17 152,-17 C 148,-17 149,-13 152,-8 Z" fill="rgba(255,255,255,0.65)" transform="rotate(225,152,-8)"/>
-          <path d="M 152,-8 C 155,-13 156,-17 152,-17 C 148,-17 149,-13 152,-8 Z" fill="rgba(168,204,236,0.78)" transform="rotate(270,152,-8)"/>
-          <path d="M 152,-8 C 155,-13 156,-17 152,-17 C 148,-17 149,-13 152,-8 Z" fill="rgba(255,255,255,0.65)" transform="rotate(315,152,-8)"/>
-          <circle cx="152" cy="-8" r="6" fill="rgba(77,159,224,0.88)"/>
-          <circle cx="152" cy="-8" r="3" fill="rgba(255,255,255,0.97)"/>
+          <path d="M 166,-14 C 169,-19 170,-22 166,-22 C 162,-22 163,-19 166,-14 Z" fill="rgba(168,204,236,0.78)"/>
+          <path d="M 166,-14 C 169,-19 170,-22 166,-22 C 162,-22 163,-19 166,-14 Z" fill="rgba(255,255,255,0.65)" transform="rotate(45,166,-14)"/>
+          <path d="M 166,-14 C 169,-19 170,-22 166,-22 C 162,-22 163,-19 166,-14 Z" fill="rgba(168,204,236,0.78)" transform="rotate(90,166,-14)"/>
+          <path d="M 166,-14 C 169,-19 170,-22 166,-22 C 162,-22 163,-19 166,-14 Z" fill="rgba(255,255,255,0.65)" transform="rotate(135,166,-14)"/>
+          <path d="M 166,-14 C 169,-19 170,-22 166,-22 C 162,-22 163,-19 166,-14 Z" fill="rgba(168,204,236,0.78)" transform="rotate(180,166,-14)"/>
+          <path d="M 166,-14 C 169,-19 170,-22 166,-22 C 162,-22 163,-19 166,-14 Z" fill="rgba(255,255,255,0.65)" transform="rotate(225,166,-14)"/>
+          <path d="M 166,-14 C 169,-19 170,-22 166,-22 C 162,-22 163,-19 166,-14 Z" fill="rgba(168,204,236,0.78)" transform="rotate(270,166,-14)"/>
+          <path d="M 166,-14 C 169,-19 170,-22 166,-22 C 162,-22 163,-19 166,-14 Z" fill="rgba(255,255,255,0.65)" transform="rotate(315,166,-14)"/>
+          <circle cx="166" cy="-14" r="6" fill="rgba(77,159,224,0.88)"/>
+          <circle cx="166" cy="-14" r="3" fill="rgba(255,255,255,0.97)"/>
         </g>
+
+        <!-- ══ BLOOD FLOW DOTS ══ -->
+        <circle class="np-1" cx="80"  cy="100" r="3.5" fill="rgba(255,100,100,0.90)"/>
+        <circle class="np-2" cx="112" cy="86"  r="3"   fill="rgba(255,255,255,0.85)"/>
+        <circle class="np-3" cx="74"  cy="132" r="3.5" fill="rgba(255,100,100,0.90)"/>
+        <circle class="np-4" cx="120" cy="118" r="3"   fill="rgba(255,255,255,0.85)"/>
+        <circle class="np-5" cx="94"  cy="152" r="2.5" fill="rgba(255,150,150,0.90)"/>
 
       </svg>
     </div>
