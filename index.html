@@ -892,11 +892,8 @@
 
 </div>
 
-<!-- Hidden iframe for Google Forms cross-origin POST -->
-<iframe name="gf_target" style="display:none;"></iframe>
-
 <script>
-const GF_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSf_oKfWHGiKdyjnzmz_VxHbz7ZuaXNUmjs5PYuUz6Oy1VKIBg/formResponse';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzIzpJwfbkEM8_N6dPtqI6z8_wV-8g38ozQBb7GIFa4nEMop6-1pCJrjrKDoCDnafE/exec';
 
 /* ─── NAVIGATION ──────────────────────────────────────────────────────── */
 let current = 1;
@@ -947,53 +944,37 @@ function checkedVals(name) {
 function val(id) {
   const el = document.getElementById(id); return el ? el.value.trim() : '';
 }
-function addField(form, name, value) {
-  const inp = document.createElement('input');
-  inp.type = 'hidden'; inp.name = name; inp.value = value;
-  form.appendChild(inp);
-}
 
 /* ─── SUBMIT ──────────────────────────────────────────────────────────── */
 function submitForm() {
-  const form = document.createElement('form');
-  form.method = 'POST';
-  form.action = GF_ACTION;
-  form.target = 'gf_target';
+  const params = new URLSearchParams({
+    fullName:      val('f_fullName'),
+    nickname:      val('f_nickname'),
+    phone:         val('f_phone'),
+    email:         val('f_email'),
+    scbmClass:     val('f_class'),
+    currentDegree: val('f_currentDegree'),
+    company:       val('f_company'),
+    jobTitle:      val('f_jobTitle'),
+    industry:      val('f_industry'),
+    workDetail:    val('f_workDetail'),
+    postDegree:    val('f_postDegree'),
+    links:         val('f_links'),
+    social:        val('f_social'),
+    booklet:       val('f_booklet'),
+    expectations:  val('f_expectations'),
+    future:        val('f_future'),
+    sussex:        (document.querySelector('input[name="sussex"]:checked') || {value: ''}).value,
+    homecoming:    (document.querySelector('input[name="homecoming"]:checked') || {value: ''}).value,
+    scbmMods:      checkedVals('scbmm').join(', '),
+    sussexMods:    checkedVals('sm').join(', '),
+    currentStatus: checkedVals('status').join(', '),
+  });
 
-  /* Single-value fields */
-  addField(form, 'entry.2005620554', val('f_fullName'));
-  addField(form, 'entry.511602726',  val('f_nickname'));
-  addField(form, 'entry.981394451',  val('f_phone'));
-  addField(form, 'entry.1987161669', val('f_email'));
-  addField(form, 'entry.997643353',  val('f_class'));
-  addField(form, 'entry.1617921072', val('f_currentDegree'));
-  addField(form, 'entry.899174294',  val('f_company'));
-  addField(form, 'entry.2068017764', val('f_jobTitle'));
-  addField(form, 'entry.869533940',  val('f_industry'));
-  addField(form, 'entry.1317839851', val('f_workDetail'));
-  addField(form, 'entry.213960377',  val('f_postDegree'));
-  addField(form, 'entry.1200870664', val('f_links'));
-  addField(form, 'entry.704170741',  val('f_social'));
-  addField(form, 'entry.1894067790', val('f_booklet'));
-  addField(form, 'entry.2119186163', val('f_expectations'));
-  addField(form, 'entry.1821133124', val('f_future'));
+  fetch(`${SCRIPT_URL}?${params.toString()}`, { method: 'GET', mode: 'no-cors' })
+    .catch(() => {});
 
-  /* Radio fields */
-  const sussex = document.querySelector('input[name="sussex"]:checked');
-  if (sussex) addField(form, 'entry.533252561', sussex.value);
-  const homecoming = document.querySelector('input[name="homecoming"]:checked');
-  if (homecoming) addField(form, 'entry.1234580330', homecoming.value);
-
-  /* Checkbox fields — one hidden input per checked value (Google Forms requirement) */
-  checkedVals('scbmm').forEach(v => addField(form, 'entry.2093748660', v));
-  checkedVals('sm').forEach(v    => addField(form, 'entry.406044598',  v));
-  checkedVals('status').forEach(v => addField(form, 'entry.1065046570', v));
-
-  document.body.appendChild(form);
-  form.submit();
-  document.body.removeChild(form);
-
-  /* Show success screen */
+  /* Show success screen immediately */
   document.getElementById('panel5').classList.remove('active');
   const s = document.getElementById('successPanel');
   s.style.display = 'block';
