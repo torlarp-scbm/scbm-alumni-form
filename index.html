@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCBM Alumni Database · Biomedical Science Alumni Association</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:       #003087; /* Pantone 286 C */
+      --royal:      #0057B8; /* Pantone 2935 C */
+      --cerulean:   #1B75BC; /* Pantone 7689 C */
+      --sky:        #4D9FE0; /* Pantone 279 C */
+      --pale-blue:  #A8CCEC; /* Pantone 279-tint */
+      --mist:       #E1EFF9;
+      --frost:      #F3F8FD;
+      --white:      #FFFFFF;
+      --text-dark:  #0A1A2E;
+      --text-mid:   #2A4A6B;
+      --text-soft:  #5C7D9A;
+      --border:     #C5D9ED;
+      --green-bio:  #2D7D5A; /* biophilic accent */
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--frost);
+      color: var(--text-mid);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── ANIMATED BACKGROUND ─────────────────────────────────── */
+    .bg-layer {
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none; overflow: hidden;
+    }
+
+    .bg-gradient {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 90%, rgba(0,48,135,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 90% 10%, rgba(77,159,224,0.07) 0%, transparent 55%),
+        linear-gradient(160deg, #F3F8FD 0%, #EAF3FB 50%, #F0F7FF 100%);
+    }
+
+    /* Floating botanical shapes */
+    .leaf { position: absolute; opacity: 0; animation: floatLeaf linear infinite; }
+
+    @keyframes floatLeaf {
+      0%   { opacity: 0; transform: translateY(110vh) rotate(0deg) scale(0.8); }
+      5%   { opacity: 0.07; }
+      90%  { opacity: 0.06; }
+      100% { opacity: 0; transform: translateY(-10vh) rotate(180deg) scale(1.1); }
+    }
+
+    /* ── ACCENT BAR ──────────────────────────────────────────── */
+    .accent-bar {
+      height: 5px;
+      background: linear-gradient(90deg, var(--navy) 0%, var(--royal) 40%, var(--sky) 75%, #8ECAE6 100%);
+      position: relative; z-index: 10;
+    }
+
+    /* ── HEADER ──────────────────────────────────────────────── */
+    header {
+      position: relative; z-index: 5; overflow: hidden;
+      background: linear-gradient(140deg, var(--navy) 0%, var(--royal) 55%, var(--cerulean) 100%);
+      padding: 0;
+    }
+
+    .header-bio-shapes {
+      position: absolute; inset: 0; pointer-events: none;
+    }
+
+    .header-inner {
+      max-width: 880px; margin: 0 auto;
+      padding: 44px 32px 36px;
+      display: flex; align-items: center; gap: 36px;
+      position: relative; z-index: 2;
+    }
+
+    /* SCBM logo recreation */
+    .logo-wrap {
+      flex-shrink: 0;
+      display: flex; flex-direction: column; align-items: flex-start;
+      gap: 0;
+    }
+
+    .logo-scbm-row {
+      display: flex; align-items: flex-end; gap: 0;
+      line-height: 1;
+    }
+
+    .logo-scbm-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 56px; font-weight: 700;
+      color: white;
+      letter-spacing: -2px;
+      line-height: 1;
+    }
+
+    .logo-alumni-col {
+      display: flex; flex-direction: column;
+      align-items: flex-start;
+      padding-bottom: 4px;
+      margin-left: 6px;
+    }
+
+    .logo-line {
+      width: 100%; height: 2.5px;
+      background: var(--sky);
+      margin-bottom: 3px;
+    }
+
+    .logo-alumni-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 34px; font-weight: 400;
+      font-style: italic;
+      color: var(--sky);
+      letter-spacing: -0.5px;
+      line-height: 1;
+    }
+
+    .logo-sub {
+      font-size: 10.5px; font-weight: 400;
+      color: rgba(255,255,255,0.65);
+      letter-spacing: 0.3px;
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    .header-divider {
+      width: 1px; height: 68px;
+      background: rgba(255,255,255,0.2);
+      flex-shrink: 0;
+    }
+
+    .header-copy h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px; font-weight: 600;
+      color: white; line-height: 1.25;
+    }
+
+    .header-copy p {
+      font-size: 14px; line-height: 1.7;
+      color: rgba(255,255,255,0.72);
+      margin-top: 8px; max-width: 440px;
+    }
+
+    /* ── PROGRESS ─────────────────────────────────────────────── */
+    .progress-strip {
+      background: var(--navy);
+      padding-bottom: 22px;
+      position: relative; z-index: 4;
+    }
+
+    .progress-inner {
+      max-width: 880px; margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .steps-row {
+      display: flex; align-items: flex-start;
+    }
+
+    .step-item {
+      flex: 1; display: flex;
+      flex-direction: column; align-items: center;
+      position: relative;
+    }
+
+    /* connector line between dots */
+    .step-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 13px; left: calc(50% + 14px);
+      width: calc(100% - 28px); height: 2px;
+      background: rgba(255,255,255,0.15);
+      transition: background 0.4s;
+    }
+
+    .step-item.done:not(:last-child)::after   { background: var(--sky); }
+
+    .step-bubble {
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700;
+      color: rgba(255,255,255,0.4);
+      transition: all 0.35s; position: relative; z-index: 1;
+    }
+
+    .step-item.active .step-bubble {
+      background: white; border-color: white;
+      color: var(--navy);
+      box-shadow: 0 0 0 4px rgba(255,255,255,0.15);
+    }
+
+    .step-item.done .step-bubble {
+      background: var(--sky); border-color: var(--sky);
+      color: white;
+    }
+
+    .step-label {
+      font-size: 9.5px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      color: rgba(255,255,255,0.3);
+      margin-top: 7px;
+    }
+
+    .step-item.active .step-label { color: white; }
+    .step-item.done  .step-label  { color: var(--pale-blue); }
+
+    /* ── FORM BODY ────────────────────────────────────────────── */
+    .form-wrap {
+      max-width: 880px; margin: 0 auto;
+      padding: 36px 16px 100px;
+      position: relative; z-index: 2;
+    }
+
+    .step-panel { display: none; }
+    .step-panel.active {
+      display: block;
+      animation: stepIn 0.42s cubic-bezier(.25,.8,.25,1) both;
+    }
+
+    @keyframes stepIn {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .panel-head {
+      margin-bottom: 26px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-step-num {
+      font-size: 11px; font-weight: 600; letter-spacing: 1.8px;
+      text-transform: uppercase; color: var(--sky);
+      margin-bottom: 7px;
+    }
+
+    .panel-head h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 27px; font-weight: 600;
+      color: var(--navy); line-height: 1.2;
+    }
+
+    .panel-head p {
+      font-size: 14px; color: var(--text-soft);
+      margin-top: 5px; line-height: 1.6;
+    }
+
+    /* ── CARDS ────────────────────────────────────────────────── */
+    .card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px 28px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 14px rgba(0,48,135,0.04);
+      transition: box-shadow 0.2s, border-color 0.2s;
+      position: relative; overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--royal), var(--sky));
+      opacity: 0;
+      transition: opacity 0.25s;
+      border-radius: 3px 0 0 3px;
+    }
+
+    .card:focus-within { border-color: var(--sky); box-shadow: 0 4px 22px rgba(0,87,184,0.10); }
+    .card:focus-within::before { opacity: 1; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+    .card label.field-label {
+      display: block;
+      font-size: 14px; font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 12px; line-height: 1.45;
+    }
+
+    .req { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--royal); margin-left: 5px; vertical-align: middle; position: relative; top: -1px; }
+
+    .hint { display: block; font-size: 12px; font-weight: 400; color: var(--text-soft); margin-top: 3px; line-height: 1.5; }
+
+    /* Inputs */
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea,
+    select {
+      width: 100%;
+      border: none;
+      border-bottom: 1.5px solid var(--border);
+      padding: 9px 0 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px; color: var(--text-dark);
+      background: transparent; outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, textarea:focus, select:focus { border-bottom-color: var(--royal); }
+    ::placeholder { color: var(--text-soft); font-size: 13.5px; }
+
+    textarea { resize: vertical; min-height: 88px; line-height: 1.65; }
+
+    select {
+      cursor: pointer; -webkit-appearance: none; appearance: none;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='M1,1 L6,6 L11,1' stroke='%234D9FE0' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 2px center;
+      padding-right: 22px;
+    }
+
+    /* Option pills */
+    .pill-grid {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-top: 4px;
+    }
+
+    .pill-grid.module-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 8px;
+    }
+
+    .pill {
+      display: flex; align-items: center; gap: 9px;
+      padding: 9px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 13.5px; color: var(--text-mid);
+      transition: all 0.2s;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .pill-grid.module-grid .pill { border-radius: 12px; white-space: normal; }
+
+    .pill:hover { border-color: var(--sky); background: var(--mist); }
+
+    .pill input[type="radio"],
+    .pill input[type="checkbox"] {
+      width: 15px; height: 15px; border: none; border-bottom: none;
+      padding: 0; flex-shrink: 0;
+      accent-color: var(--royal); cursor: pointer;
+    }
+
+    .pill:has(input:checked) {
+      border-color: var(--royal);
+      background: linear-gradient(135deg, var(--mist), #e5f0fb);
+      color: var(--navy); font-weight: 500;
+    }
+
+    /* Upload zone */
+    .upload-zone {
+      border: 2px dashed var(--pale-blue);
+      border-radius: 14px;
+      padding: 36px 24px;
+      text-align: center;
+      cursor: pointer;
+      background: var(--mist);
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .upload-zone:hover { border-color: var(--royal); background: #daeef9; }
+
+    .upload-zone input[type="file"] { display: none; }
+
+    .upload-icon {
+      width: 44px; height: 44px; margin: 0 auto 12px;
+      background: linear-gradient(135deg, var(--royal), var(--sky));
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .upload-icon svg { width: 22px; height: 22px; color: white; }
+
+    .upload-zone p { font-size: 14px; color: var(--text-soft); line-height: 1.6; }
+    .upload-zone strong { color: var(--royal); }
+    #fileLabel { font-size: 13px; color: var(--royal); margin-top: 8px; display: none; font-weight: 500; }
+
+    /* Nav buttons */
+    .btn-row { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; gap: 12px; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 30px;
+      border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14.5px; font-weight: 600;
+      cursor: pointer; border: none;
+      transition: all 0.25s;
+      text-decoration: none;
+    }
+
+    .btn-back {
+      background: white;
+      color: var(--royal);
+      border: 2px solid var(--border);
+    }
+
+    .btn-back:hover { border-color: var(--royal); background: var(--mist); }
+
+    .btn-next {
+      background: linear-gradient(135deg, var(--navy), var(--royal));
+      color: white;
+      box-shadow: 0 4px 18px rgba(0,48,135,0.32);
+    }
+
+    .btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,48,135,0.42); }
+
+    .btn-submit {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--royal) 50%, var(--cerulean) 100%);
+      background-size: 200% 200%;
+      animation: pulse-grad 4s ease infinite;
+      color: white;
+      padding: 15px 44px;
+      font-size: 15px;
+      box-shadow: 0 6px 26px rgba(0,48,135,0.38);
+    }
+
+    @keyframes pulse-grad {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ── SUCCESS ──────────────────────────────────────────────── */
+    #successPanel {
+      display: none;
+      text-align: center;
+      padding: 80px 32px;
+      animation: stepIn 0.5s ease both;
+    }
+
+    .success-ring {
+      width: 88px; height: 88px; margin: 0 auto 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--navy), var(--sky));
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 32px rgba(0,87,184,0.32);
+      animation: popIn 0.5s cubic-bezier(.175,.885,.32,1.275) both;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+
+    .success-ring svg { width: 44px; height: 44px; }
+
+    #successPanel h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px; color: var(--navy); margin-bottom: 14px;
+    }
+
+    #successPanel p {
+      font-size: 16px; color: var(--text-soft);
+      line-height: 1.75; max-width: 500px; margin: 0 auto 36px;
+    }
+
+    /* ── BIOPHILIC SECTION ACCENTS ────────────────────────────── */
+    .bio-accent {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .bio-leaf-icon {
+      width: 32px; height: 32px; flex-shrink: 0;
+      opacity: 0.18;
+    }
+
+    /* ── RESPONSIVE ───────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .header-inner { flex-direction: column; gap: 18px; align-items: flex-start; }
+      .header-divider { display: none; }
+      .logo-scbm-text { font-size: 42px; }
+      .logo-alumni-text { font-size: 26px; }
+      .two-col, .three-col { grid-template-columns: 1fr; }
+      .steps-row { gap: 0; }
+      .step-label { display: none; }
+      .card { padding: 18px 16px; }
+      .pill-grid.module-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── Animated botanical background ─── -->
+<div class="bg-layer">
+  <div class="bg-gradient"></div>
+  <svg id="leafCanvas" style="position:absolute;inset:0;width:100%;height:100%;"></svg>
+</div>
+
+<!-- ─── Top accent bar ─── -->
+<div class="accent-bar"></div>
+
+<!-- ─── Header ─── -->
+<header>
+  <svg class="header-bio-shapes" viewBox="0 0 1200 260" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <!-- Organic botanical shapes -->
+    <ellipse cx="1050" cy="50" rx="280" ry="200" fill="rgba(255,255,255,0.04)" transform="rotate(30,1050,50)"/>
+    <path d="M900,0 C980,60 1020,160 940,240 C860,320 740,280 760,180 C780,80 840,-30 900,0Z" fill="rgba(255,255,255,0.05)"/>
+    <path d="M1100,80 C1140,110 1150,170 1100,190 C1050,210 1010,170 1030,130 C1050,90 1070,55 1100,80Z" fill="rgba(255,255,255,0.07)"/>
+    <!-- Leaf silhouettes right side -->
+    <path d="M1080,10 C1110,30 1120,80 1090,100 C1060,120 1030,90 1040,60 C1050,30 1058,0 1080,10Z" fill="rgba(77,159,224,0.12)"/>
+    <path d="M1140,50 C1165,75 1168,120 1145,130 C1122,140 1100,115 1108,90 C1116,65 1122,32 1140,50Z" fill="rgba(77,159,224,0.10)"/>
+    <path d="M1170,0 C1195,25 1200,75 1175,88 C1150,101 1125,76 1130,52 C1135,28 1152,-12 1170,0Z" fill="rgba(255,255,255,0.06)"/>
+    <circle cx="980" cy="200" r="120" fill="rgba(255,255,255,0.03)"/>
+  </svg>
+
+  <div class="header-inner">
+    <div class="logo-wrap">
+      <div class="logo-scbm-row">
+        <span class="logo-scbm-text">SCBM</span>
+        <div class="logo-alumni-col">
+          <div class="logo-line" style="width:90px;"></div>
+          <span class="logo-alumni-text">Alumni</span>
+        </div>
+      </div>
+      <div class="logo-sub">
+        Biomedical Science Alumni Association<br>
+        Faculty of Science · Mahidol University
+      </div>
+    </div>
+
+    <div class="header-divider"></div>
+
+    <div class="header-copy">
+      <h1>Alumni Database Registration</h1>
+      <p>Hello SCBM alumni! We are building our alumni database — this information will be incredibly valuable for strengthening our network and community.</p>
+    </div>
+  </div>
+</header>
+
+<!-- ─── Progress ─── -->
+<div class="progress-strip">
+  <div class="progress-inner">
+    <div class="steps-row" id="stepsRow">
+      <div class="step-item active" data-n="1">
+        <div class="step-bubble">1</div>
+        <span class="step-label">Identity</span>
+      </div>
+      <div class="step-item" data-n="2">
+        <div class="step-bubble">2</div>
+        <span class="step-label">Academic</span>
+      </div>
+      <div class="step-item" data-n="3">
+        <div class="step-bubble">3</div>
+        <span class="step-label">Career</span>
+      </div>
+      <div class="step-item" data-n="4">
+        <div class="step-bubble">4</div>
+        <span class="step-label">Profile</span>
+      </div>
+      <div class="step-item" data-n="5">
+        <div class="step-bubble">5</div>
+        <span class="step-label">Community</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── Form ─── -->
+<div class="form-wrap">
+
+  <!-- ══ STEP 1: Identity ══ -->
+  <div class="step-panel active" id="panel1">
+    <div class="panel-head">
+      <div class="panel-step-num">Step 1 of 5</div>
+      <h2>Tell us who you are</h2>
+      <p>Basic contact details so we can keep our alumni network connected.</p>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <label class="field-label">Full Name <span class="req"></span></label>
+        <input type="text" id="f_fullName" placeholder="Your full name" required>
+      </div>
+      <div class="card">
+        <label class="field-label">Nickname <span class="req"></span></label>
+        <input type="text" id="f_nickname" placeholder="What everyone calls you" required>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <label class="field-label">Phone Number <span class="req"></span></label>
+        <input type="tel" id="f_phone" placeholder="+66 XX XXX XXXX" required>
+      </div>
+      <div class="card">
+        <label class="field-label">E-mail <span class="req"></span></label>
+        <input type="email" id="f_email" placeholder="your@email.com" required>
+      </div>
+    </div>
+
+    <div class="card">
+      <label class="field-label">SCBM Class <span class="req"></span></label>
+      <select id="f_class" required>
+        <option value="" disabled selected>Select your generation</option>
+        <option>Gen 1 (SCBM 57xxxxx)</option>
+        <option>Gen 2 (SCBM 58xxxxx)</option>
+        <option>Gen 3 (SCBM 59xxxxx)</option>
+        <option>Gen 4 (SCBM 60xxxxx)</option>
+        <option>Gen 5 (SCBM 61xxxxx)</option>
+        <option>Gen 6 (SCBM 62xxxxx)</option>
+        <option>Gen 7 (SCBM 63xxxxx)</option>
+        <option>Gen 8 (SCBM 64xxxxx)</option>
+        <option>Gen 9 (SCBM 65xxxxx)</option>
+      </select>
+    </div>
+
+    <div class="btn-row">
+      <div></div>
+      <button class="btn btn-next" onclick="goTo(2)">
+        Continue
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ STEP 2: Academic ══ -->
+  <div class="step-panel" id="panel2">
+    <div class="panel-head">
+      <div class="panel-step-num">Step 2 of 5</div>
+      <h2>Your Academic Journey</h2>
+      <p>Your time at SCBM and University of Sussex.</p>
+    </div>
+
+    <div class="card">
+      <label class="field-label">Did you enroll in the dual degree program at Sussex, UK? <span class="req"></span></label>
+      <div class="pill-grid" style="margin-top:8px;">
+        <label class="pill"><input type="radio" name="sussex" id="f_sussex_yes" value="Yes"> Yes, I studied at Sussex</label>
+        <label class="pill"><input type="radio" name="sussex" id="f_sussex_no" value="No"> No, I stayed at SCBM</label>
+      </div>
+    </div>
+
+    <div class="card" id="sussexModCard">
+      <label class="field-label">Modules enrolled while studying at Sussex <span class="req"></span>
+        <span class="hint">Select all that apply</span>
+      </label>
+      <div class="pill-grid module-grid" style="margin-top:10px;">
+        <label class="pill"><input type="checkbox" name="sm" value="Cell Regulation and Cancer"> Cell Regulation &amp; Cancer</label>
+        <label class="pill"><input type="checkbox" name="sm" value="Structural Basis of Biological Function"> Structural Basis of Biological Function</label>
+        <label class="pill"><input type="checkbox" name="sm" value="Genetics and Genomics"> Genetics and Genomics</label>
+        <label class="pill"><input type="checkbox" name="sm" value="Hematology and Anatomy"> Hematology and Anatomy</label>
+        <label class="pill"><input type="checkbox" name="sm" value="Clinical Biochemistry"> Clinical Biochemistry</label>
+        <label class="pill"><input type="checkbox" name="sm" value="Medical Microbiology"> Medical Microbiology</label>
+        <label class="pill"><input type="checkbox" name="sm" value="Combating Disease"> Combating Disease</label>
+        <label class="pill"><input type="checkbox" name="sm" value="Virology"> Virology</label>
+        <label class="pill"><input type="checkbox" name="sm" value="N/A (Studied at SCBM)"> N/A — Studied at SCBM</label>
+        <label class="pill"><input type="checkbox" name="sm" value="Others"> Others</label>
+      </div>
+    </div>
+
+    <div class="card">
+      <label class="field-label">Modules enrolled while studying at SCBM <span class="req"></span>
+        <span class="hint">Select all that apply</span>
+      </label>
+      <div class="pill-grid module-grid" style="margin-top:10px;">
+        <label class="pill"><input type="checkbox" name="scbmm" value="Anti-aging and Regenerative Science"> Anti-aging &amp; Regenerative Science</label>
+        <label class="pill"><input type="checkbox" name="scbmm" value="Diseases, Cancer and their control"> Diseases, Cancer and their Control</label>
+        <label class="pill"><input type="checkbox" name="scbmm" value="Animal Cell Culture Technique"> Animal Cell Culture Technique</label>
+        <label class="pill"><input type="checkbox" name="scbmm" value="Neuroscience"> Neuroscience</label>
+        <label class="pill"><input type="checkbox" name="scbmm" value="Cell and Molecular Medicine"> Cell and Molecular Medicine</label>
+        <label class="pill"><input type="checkbox" name="scbmm" value="Medical Microbiology"> Medical Microbiology</label>
+        <label class="pill"><input type="checkbox" name="scbmm" value="Novel Therapeutic Strategies and Diagnosis"> Novel Therapeutic Strategies &amp; Diagnosis</label>
+        <label class="pill"><input type="checkbox" name="scbmm" value="Frontier in Drug Discovery and Therapeutic Perspectives"> Frontier in Drug Discovery &amp; Therapeutic Perspectives</label>
+        <label class="pill"><input type="checkbox" name="scbmm" value="Translational Physiology"> Translational Physiology</label>
+        <label class="pill"><input type="checkbox" name="scbmm" value="N/A"> N/A — Sussex / Interned / Exchanged</label>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-back" onclick="goTo(1)">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"/></svg>
+        Back
+      </button>
+      <button class="btn btn-next" onclick="goTo(3)">
+        Continue
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ STEP 3: Career ══ -->
+  <div class="step-panel" id="panel3">
+    <div class="panel-head">
+      <div class="panel-step-num">Step 3 of 5</div>
+      <h2>Where Life Took You</h2>
+      <p>Your current pursuits, career, and ongoing education.</p>
+    </div>
+
+    <div class="card">
+      <label class="field-label">What are you doing right now? <span class="req"></span>
+        <span class="hint">Check all that apply</span>
+      </label>
+      <div class="pill-grid" style="margin-top:10px;">
+        <label class="pill"><input type="checkbox" name="status" value="Working full-time"> Working full-time</label>
+        <label class="pill"><input type="checkbox" name="status" value="Working part-time"> Working part-time</label>
+        <label class="pill"><input type="checkbox" name="status" value="Studying Master's degree(s)"> Studying Master's</label>
+        <label class="pill"><input type="checkbox" name="status" value="Studying Ph.D."> Studying Ph.D.</label>
+        <label class="pill"><input type="checkbox" name="status" value="Studying Master's + Ph.D."> Master's + Ph.D.</label>
+        <label class="pill"><input type="checkbox" name="status" value="Studying MD"> Studying MD</label>
+        <label class="pill"><input type="checkbox" name="status" value="Gap year / still figuring things out"> Gap year / figuring things out</label>
+        <label class="pill"><input type="checkbox" name="status" value="Ordained"> Ordained</label>
+        <label class="pill"><input type="checkbox" name="status" value="In military service"> In military service</label>
+      </div>
+    </div>
+
+    <div class="card">
+      <label class="field-label">What degree(s) are you studying right now, and where? <span class="req"></span>
+        <span class="hint">Include institution. Type (-) if not currently studying.</span>
+      </label>
+      <textarea id="f_currentDegree" placeholder="e.g. M.Sc. Molecular Biology, Mahidol University (2024–present)"></textarea>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <label class="field-label">Company / Organization <span class="req"></span>
+          <span class="hint">Type (-) if not working</span>
+        </label>
+        <input type="text" id="f_company" placeholder="Organization name">
+      </div>
+      <div class="card">
+        <label class="field-label">Job Title &amp; Duration <span class="req"></span></label>
+        <input type="text" id="f_jobTitle" placeholder="e.g. Research Scientist, 2 years">
+      </div>
+    </div>
+
+    <div class="card">
+      <label class="field-label">What industry / field are you in? <span class="req"></span>
+        <span class="hint">Life Sciences, Biotech, Clinic, Pharma, Engineering, Medical Devices, Cosmetics, Education, Finance, etc.</span>
+      </label>
+      <input type="text" id="f_industry" placeholder="Your industry or field">
+    </div>
+
+    <div class="card">
+      <label class="field-label">Tell us more about what you are studying / working on <span class="req"></span></label>
+      <textarea id="f_workDetail" placeholder="A few sentences about your current role, research, or studies…"></textarea>
+    </div>
+
+    <div class="card">
+      <label class="field-label">Did you obtain any degree after graduating from SCBM? <span class="req"></span>
+        <span class="hint">If yes, list degree(s), institution, and year. If no, type (-)</span>
+      </label>
+      <textarea id="f_postDegree" placeholder="e.g. M.Sc. Biochemistry, Chulalongkorn University (2023)"></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-back" onclick="goTo(2)">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"/></svg>
+        Back
+      </button>
+      <button class="btn btn-next" onclick="goTo(4)">
+        Continue
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ STEP 4: Profile ══ -->
+  <div class="step-panel" id="panel4">
+    <div class="panel-head">
+      <div class="panel-step-num">Step 4 of 5</div>
+      <h2>Your Online Presence</h2>
+      <p>Share your links and upload a photo for the alumni booklet.</p>
+    </div>
+
+    <div class="card">
+      <label class="field-label">CV, LinkedIn, GitHub, YouTube, or Portfolio links <span class="req"></span>
+        <span class="hint">Paste one or more URLs — one per line</span>
+      </label>
+      <textarea id="f_links" placeholder="https://linkedin.com/in/yourname&#10;https://github.com/yourname" style="min-height:76px;"></textarea>
+    </div>
+
+    <div class="card">
+      <label class="field-label">Social Media — Facebook &amp; Instagram <span class="req"></span>
+        <span class="hint">Handles or profile URLs (optional but appreciated)</span>
+      </label>
+      <input type="text" id="f_social" placeholder="@yourhandle or profile URL">
+    </div>
+
+    <div class="card">
+      <label class="field-label">Upload your photo for the alumni booklet <span class="req"></span>
+        <span class="hint">We miss your pretty faces! A clear headshot is preferred.</span>
+      </label>
+      <div class="upload-zone" id="uploadZone" onclick="document.getElementById('photoFile').click()">
+        <div class="upload-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </div>
+        <p><strong>Click to upload</strong> or drag &amp; drop</p>
+        <p style="font-size:12px;margin-top:4px;color:var(--text-soft);">JPG or PNG · headshot preferred</p>
+        <div id="fileLabel"></div>
+        <input type="file" id="photoFile" accept="image/*" onchange="onFileChange(this)">
+      </div>
+      <p style="font-size:12px;color:var(--text-soft);margin-top:10px;">
+        ⓘ The photo upload is handled by Google Drive. If you have trouble, you can also
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSf_oKfWHGiKdyjnzmz_VxHbz7ZuaXNUmjs5PYuUz6Oy1VKIBg/viewform" target="_blank" style="color:var(--royal);">upload directly in the original form</a>.
+      </p>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-back" onclick="goTo(3)">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"/></svg>
+        Back
+      </button>
+      <button class="btn btn-next" onclick="goTo(5)">
+        Continue
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ STEP 5: Community ══ -->
+  <div class="step-panel" id="panel5">
+    <div class="panel-head">
+      <div class="panel-step-num">Step 5 of 5</div>
+      <h2>Your Voice &amp; Vision</h2>
+      <p>Share your story and help shape the future of our alumni community.</p>
+    </div>
+
+    <div class="card">
+      <label class="field-label">SCBM Alumni Booklet Message <span class="req"></span>
+        <span class="hint">Write 3–6 sentences: How did studying at SCBM help you grow or shape your career?</span>
+      </label>
+      <textarea id="f_booklet" placeholder="Studying at SCBM gave me…" style="min-height:120px;"></textarea>
+    </div>
+
+    <div class="card">
+      <label class="field-label">What are your expectations for our alumni association? <span class="req"></span>
+        <span class="hint">Your wants, ideas, comments, and suggestions are all valuable to us.</span>
+      </label>
+      <textarea id="f_expectations" placeholder="I'd love to see the association…" style="min-height:100px;"></textarea>
+    </div>
+
+    <div class="card">
+      <label class="field-label">What are your plans for the future? <span class="req"></span></label>
+      <textarea id="f_future" placeholder="In the next few years, I hope to…"></textarea>
+    </div>
+
+    <div class="card">
+      <label class="field-label">Alumni Homecoming Event in 2026 or early 2027 — Are you interested? <span class="req"></span></label>
+      <div class="pill-grid" style="margin-top:10px;">
+        <label class="pill"><input type="radio" name="homecoming" value="Yes"> ✦ Yes, count me in!</label>
+        <label class="pill"><input type="radio" name="homecoming" value="Maybe"> Maybe</label>
+        <label class="pill"><input type="radio" name="homecoming" value="No"> Not this time</label>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-back" onclick="goTo(4)">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"/></svg>
+        Back
+      </button>
+      <button class="btn btn-next btn-submit" onclick="submitForm()">
+        Submit to Alumni Database
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ SUCCESS ══ -->
+  <div id="successPanel">
+    <div class="success-ring">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    </div>
+    <h2>Welcome to the SCBM Alumni Network!</h2>
+    <p>Your information has been submitted. We'll be in touch soon with updates about alumni events, the booklet, and community news.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-bottom:16px;">
+      <a href="https://docs.google.com/spreadsheets/d/1YYTC8uXjSrBtwXkSpu1ndcGA01rf53o81zjijjnQdKA/edit"
+         target="_blank" class="btn btn-next" style="text-decoration:none;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+        View Alumni Spreadsheet
+      </a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf_oKfWHGiKdyjnzmz_VxHbz7ZuaXNUmjs5PYuUz6Oy1VKIBg/viewform"
+         target="_blank" class="btn btn-back" style="text-decoration:none;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/></svg>
+        Original Google Form
+      </a>
+    </div>
+    <button class="btn btn-back" onclick="resetForm()" style="margin:0 auto;">
+      Submit Another Response
+    </button>
+  </div>
+
+</div>
+
+<!-- Hidden iframe for Google Forms cross-origin POST -->
+<iframe name="gf_target" style="display:none;"></iframe>
+
+<script>
+/* ─── GOOGLE FORMS CONFIG ───────────────────────────────────────────────
+   To activate direct submission, replace PLACEHOLDER values with the real
+   entry IDs from your Google Form.
+   How to find them: open the viewform URL → right-click → View Page Source →
+   search for "entry." — each field has an "entry.XXXXXXXXXX" name attribute.
+   ─────────────────────────────────────────────────────────────────────── */
+const GF_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSf_oKfWHGiKdyjnzmz_VxHbz7ZuaXNUmjs5PYuUz6Oy1VKIBg/formResponse';
+
+const ENTRY = {
+  fullName:       'entry.REPLACE_1',
+  nickname:       'entry.REPLACE_2',
+  phone:          'entry.REPLACE_3',
+  email:          'entry.REPLACE_4',
+  scbmClass:      'entry.REPLACE_5',
+  sussex:         'entry.REPLACE_6',
+  sussexMods:     'entry.REPLACE_7',
+  scbmMods:       'entry.REPLACE_8',
+  currentStatus:  'entry.REPLACE_9',
+  currentDegree:  'entry.REPLACE_10',
+  company:        'entry.REPLACE_11',
+  jobTitle:       'entry.REPLACE_12',
+  industry:       'entry.REPLACE_13',
+  workDetail:     'entry.REPLACE_14',
+  postDegree:     'entry.REPLACE_15',
+  links:          'entry.REPLACE_16',
+  social:         'entry.REPLACE_17',
+  booklet:        'entry.REPLACE_18',
+  expectations:   'entry.REPLACE_19',
+  future:         'entry.REPLACE_20',
+  homecoming:     'entry.REPLACE_21',
+};
+
+/* ─── NAVIGATION ──────────────────────────────────────────────────────── */
+let current = 1;
+
+function goTo(n) {
+  document.getElementById('panel' + current).classList.remove('active');
+  current = n;
+  document.getElementById('panel' + current).classList.add('active');
+  updateProgress(n);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateProgress(n) {
+  document.querySelectorAll('.step-item').forEach(el => {
+    const i = +el.dataset.n;
+    el.classList.toggle('active', i === n);
+    el.classList.toggle('done', i < n);
+  });
+}
+
+/* ─── FILE UPLOAD ─────────────────────────────────────────────────────── */
+function onFileChange(input) {
+  const lbl = document.getElementById('fileLabel');
+  if (input.files && input.files[0]) {
+    lbl.textContent = '✓ ' + input.files[0].name;
+    lbl.style.display = 'block';
+    document.getElementById('uploadZone').style.borderColor = 'var(--royal)';
+  }
+}
+
+/* Drag-and-drop support */
+const uz = document.getElementById('uploadZone');
+uz.addEventListener('dragover', e => { e.preventDefault(); uz.style.borderColor = 'var(--royal)'; });
+uz.addEventListener('dragleave', () => { uz.style.borderColor = ''; });
+uz.addEventListener('drop', e => {
+  e.preventDefault();
+  const dt = e.dataTransfer;
+  if (dt.files.length) {
+    document.getElementById('photoFile').files = dt.files;
+    onFileChange(document.getElementById('photoFile'));
+  }
+});
+
+/* ─── COLLECT VALUES ──────────────────────────────────────────────────── */
+function checked(name) {
+  return [...document.querySelectorAll(`input[name="${name}"]:checked`)]
+    .map(el => el.value).join(', ');
+}
+
+function val(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+
+/* ─── SUBMIT ──────────────────────────────────────────────────────────── */
+function submitForm() {
+  const data = {
+    [ENTRY.fullName]:      val('f_fullName'),
+    [ENTRY.nickname]:      val('f_nickname'),
+    [ENTRY.phone]:         val('f_phone'),
+    [ENTRY.email]:         val('f_email'),
+    [ENTRY.scbmClass]:     val('f_class'),
+    [ENTRY.sussex]:        checked('sussex'),
+    [ENTRY.sussexMods]:    checked('sm'),
+    [ENTRY.scbmMods]:      checked('scbmm'),
+    [ENTRY.currentStatus]: checked('status'),
+    [ENTRY.currentDegree]: val('f_currentDegree'),
+    [ENTRY.company]:       val('f_company'),
+    [ENTRY.jobTitle]:      val('f_jobTitle'),
+    [ENTRY.industry]:      val('f_industry'),
+    [ENTRY.workDetail]:    val('f_workDetail'),
+    [ENTRY.postDegree]:    val('f_postDegree'),
+    [ENTRY.links]:         val('f_links'),
+    [ENTRY.social]:        val('f_social'),
+    [ENTRY.booklet]:       val('f_booklet'),
+    [ENTRY.expectations]:  val('f_expectations'),
+    [ENTRY.future]:        val('f_future'),
+    [ENTRY.homecoming]:    checked('homecoming'),
+  };
+
+  /* Build hidden form → post to iframe (CORS-safe trick for Google Forms) */
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = GF_ACTION;
+  form.target = 'gf_target';
+
+  Object.entries(data).forEach(([k, v]) => {
+    if (!k.includes('REPLACE')) { /* only post if entry IDs are configured */
+      const inp = document.createElement('input');
+      inp.type = 'hidden'; inp.name = k; inp.value = v;
+      form.appendChild(inp);
+    }
+  });
+
+  document.body.appendChild(form);
+  form.submit();
+  document.body.removeChild(form);
+
+  /* Show success screen */
+  document.getElementById('panel5').classList.remove('active');
+  const s = document.getElementById('successPanel');
+  s.style.display = 'block';
+  updateProgress(6);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ─── RESET ───────────────────────────────────────────────────────────── */
+function resetForm() {
+  document.getElementById('successPanel').style.display = 'none';
+  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel1').classList.add('active');
+  document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea, select').forEach(el => { el.value = ''; });
+  document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(el => { el.checked = false; });
+  document.getElementById('fileLabel').style.display = 'none';
+  current = 1;
+  updateProgress(1);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ─── BIOPHILIC LEAF ANIMATION ────────────────────────────────────────── */
+(function spawnLeaves() {
+  const svg = document.getElementById('leafCanvas');
+  const ns = 'http://www.w3.org/2000/svg';
+  const shapes = [
+    'M0,20 C8,0 28,0 24,14 C20,28 4,34 0,20Z',
+    'M12,0 C24,8 28,22 16,30 C4,38 -4,24 4,12 C8,4 12,0 12,0Z',
+    'M0,16 C4,0 20,-2 22,10 C24,22 12,32 2,26 C-4,22 0,16 0,16Z',
+    'M8,0 C20,2 26,16 18,26 C10,36 -2,28 0,16 C2,6 8,0 8,0Z',
+  ];
+  const colors = ['#003087','#0057B8','#1B75BC','#2D7D5A'];
+
+  for (let i = 0; i < 18; i++) {
+    const g = document.createElementNS(ns, 'g');
+    const path = document.createElementNS(ns, 'path');
+    path.setAttribute('d', shapes[i % shapes.length]);
+    path.setAttribute('fill', colors[i % colors.length]);
+
+    const x = Math.random() * 100;
+    const dur = 18 + Math.random() * 22;
+    const delay = -(Math.random() * dur);
+    const size = 0.4 + Math.random() * 0.8;
+
+    g.style.cssText = `
+      position:absolute;
+      left:${x}%;
+      animation: leafFloat ${dur}s ${delay}s linear infinite;
+      opacity:0;
+    `;
+    g.setAttribute('transform', `translate(${window.innerWidth * x / 100}, ${window.innerHeight + 60}) scale(${size})`);
+
+    path.style.cssText = `animation: leafFloat ${dur}s ${delay}s linear infinite;`;
+    g.appendChild(path);
+    svg.appendChild(g);
+
+    /* Animate with JS for better control */
+    animLeaf(g, x, dur, delay < 0 ? Math.abs(delay) : 0, size);
+  }
+
+  function animLeaf(el, xPct, dur, startProgress, scale) {
+    const vw = window.innerWidth, vh = window.innerHeight;
+    let t = startProgress;
+    let rot = Math.random() * 360;
+    const rotSpeed = (Math.random() - 0.5) * 120;
+    let wobble = 0;
+    const wobbleAmp = (Math.random() - 0.5) * 60;
+
+    function tick(ts) {
+      t += 1 / (dur * 60);
+      if (t > 1) t = 0;
+      wobble += 0.015;
+      const y = vh + 60 - t * (vh + 120);
+      const x = xPct / 100 * vw + Math.sin(wobble) * wobbleAmp;
+      rot += rotSpeed / 60;
+      const opacity = t < 0.05 ? t / 0.05 * 0.07 : t > 0.93 ? (1 - t) / 0.07 * 0.07 : 0.07;
+      el.setAttribute('transform', `translate(${x},${y}) scale(${scale}) rotate(${rot})`);
+      el.style.opacity = opacity;
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+})();
+</script>
+</body>
+</html>
