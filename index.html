@@ -885,18 +885,6 @@
     </div>
     <h2>Welcome to the SCBM Alumni Network!</h2>
     <p>Your information has been submitted. We'll be in touch soon with updates about alumni events, the booklet, and community news.</p>
-    <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-bottom:16px;">
-      <a href="https://docs.google.com/spreadsheets/d/1YYTC8uXjSrBtwXkSpu1ndcGA01rf53o81zjijjnQdKA/edit"
-         target="_blank" class="btn btn-next" style="text-decoration:none;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-        View Alumni Spreadsheet
-      </a>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf_oKfWHGiKdyjnzmz_VxHbz7ZuaXNUmjs5PYuUz6Oy1VKIBg/viewform"
-         target="_blank" class="btn btn-back" style="text-decoration:none;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/></svg>
-        Original Google Form
-      </a>
-    </div>
     <button class="btn btn-back" onclick="resetForm()" style="margin:0 auto;">
       Submit Another Response
     </button>
@@ -908,37 +896,7 @@
 <iframe name="gf_target" style="display:none;"></iframe>
 
 <script>
-/* ─── GOOGLE FORMS CONFIG ───────────────────────────────────────────────
-   To activate direct submission, replace PLACEHOLDER values with the real
-   entry IDs from your Google Form.
-   How to find them: open the viewform URL → right-click → View Page Source →
-   search for "entry." — each field has an "entry.XXXXXXXXXX" name attribute.
-   ─────────────────────────────────────────────────────────────────────── */
 const GF_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSf_oKfWHGiKdyjnzmz_VxHbz7ZuaXNUmjs5PYuUz6Oy1VKIBg/formResponse';
-
-const ENTRY = {
-  fullName:       'entry.REPLACE_1',
-  nickname:       'entry.REPLACE_2',
-  phone:          'entry.REPLACE_3',
-  email:          'entry.REPLACE_4',
-  scbmClass:      'entry.REPLACE_5',
-  sussex:         'entry.REPLACE_6',
-  sussexMods:     'entry.REPLACE_7',
-  scbmMods:       'entry.REPLACE_8',
-  currentStatus:  'entry.REPLACE_9',
-  currentDegree:  'entry.REPLACE_10',
-  company:        'entry.REPLACE_11',
-  jobTitle:       'entry.REPLACE_12',
-  industry:       'entry.REPLACE_13',
-  workDetail:     'entry.REPLACE_14',
-  postDegree:     'entry.REPLACE_15',
-  links:          'entry.REPLACE_16',
-  social:         'entry.REPLACE_17',
-  booklet:        'entry.REPLACE_18',
-  expectations:   'entry.REPLACE_19',
-  future:         'entry.REPLACE_20',
-  homecoming:     'entry.REPLACE_21',
-};
 
 /* ─── NAVIGATION ──────────────────────────────────────────────────────── */
 let current = 1;
@@ -982,56 +940,54 @@ uz.addEventListener('drop', e => {
   }
 });
 
-/* ─── COLLECT VALUES ──────────────────────────────────────────────────── */
-function checked(name) {
-  return [...document.querySelectorAll(`input[name="${name}"]:checked`)]
-    .map(el => el.value).join(', ');
+/* ─── HELPERS ─────────────────────────────────────────────────────────── */
+function checkedVals(name) {
+  return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(el => el.value);
 }
-
 function val(id) {
-  const el = document.getElementById(id);
-  return el ? el.value.trim() : '';
+  const el = document.getElementById(id); return el ? el.value.trim() : '';
+}
+function addField(form, name, value) {
+  const inp = document.createElement('input');
+  inp.type = 'hidden'; inp.name = name; inp.value = value;
+  form.appendChild(inp);
 }
 
 /* ─── SUBMIT ──────────────────────────────────────────────────────────── */
 function submitForm() {
-  const data = {
-    [ENTRY.fullName]:      val('f_fullName'),
-    [ENTRY.nickname]:      val('f_nickname'),
-    [ENTRY.phone]:         val('f_phone'),
-    [ENTRY.email]:         val('f_email'),
-    [ENTRY.scbmClass]:     val('f_class'),
-    [ENTRY.sussex]:        checked('sussex'),
-    [ENTRY.sussexMods]:    checked('sm'),
-    [ENTRY.scbmMods]:      checked('scbmm'),
-    [ENTRY.currentStatus]: checked('status'),
-    [ENTRY.currentDegree]: val('f_currentDegree'),
-    [ENTRY.company]:       val('f_company'),
-    [ENTRY.jobTitle]:      val('f_jobTitle'),
-    [ENTRY.industry]:      val('f_industry'),
-    [ENTRY.workDetail]:    val('f_workDetail'),
-    [ENTRY.postDegree]:    val('f_postDegree'),
-    [ENTRY.links]:         val('f_links'),
-    [ENTRY.social]:        val('f_social'),
-    [ENTRY.booklet]:       val('f_booklet'),
-    [ENTRY.expectations]:  val('f_expectations'),
-    [ENTRY.future]:        val('f_future'),
-    [ENTRY.homecoming]:    checked('homecoming'),
-  };
-
-  /* Build hidden form → post to iframe (CORS-safe trick for Google Forms) */
   const form = document.createElement('form');
   form.method = 'POST';
   form.action = GF_ACTION;
   form.target = 'gf_target';
 
-  Object.entries(data).forEach(([k, v]) => {
-    if (!k.includes('REPLACE')) { /* only post if entry IDs are configured */
-      const inp = document.createElement('input');
-      inp.type = 'hidden'; inp.name = k; inp.value = v;
-      form.appendChild(inp);
-    }
-  });
+  /* Single-value fields */
+  addField(form, 'entry.2005620554', val('f_fullName'));
+  addField(form, 'entry.511602726',  val('f_nickname'));
+  addField(form, 'entry.981394451',  val('f_phone'));
+  addField(form, 'entry.1987161669', val('f_email'));
+  addField(form, 'entry.997643353',  val('f_class'));
+  addField(form, 'entry.1617921072', val('f_currentDegree'));
+  addField(form, 'entry.899174294',  val('f_company'));
+  addField(form, 'entry.2068017764', val('f_jobTitle'));
+  addField(form, 'entry.869533940',  val('f_industry'));
+  addField(form, 'entry.1317839851', val('f_workDetail'));
+  addField(form, 'entry.213960377',  val('f_postDegree'));
+  addField(form, 'entry.1200870664', val('f_links'));
+  addField(form, 'entry.704170741',  val('f_social'));
+  addField(form, 'entry.1894067790', val('f_booklet'));
+  addField(form, 'entry.2119186163', val('f_expectations'));
+  addField(form, 'entry.1821133124', val('f_future'));
+
+  /* Radio fields */
+  const sussex = document.querySelector('input[name="sussex"]:checked');
+  if (sussex) addField(form, 'entry.533252561', sussex.value);
+  const homecoming = document.querySelector('input[name="homecoming"]:checked');
+  if (homecoming) addField(form, 'entry.1234580330', homecoming.value);
+
+  /* Checkbox fields — one hidden input per checked value (Google Forms requirement) */
+  checkedVals('scbmm').forEach(v => addField(form, 'entry.2093748660', v));
+  checkedVals('sm').forEach(v    => addField(form, 'entry.406044598',  v));
+  checkedVals('status').forEach(v => addField(form, 'entry.1065046570', v));
 
   document.body.appendChild(form);
   form.submit();
